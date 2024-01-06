@@ -44,7 +44,7 @@ const saveMemberToDatabase = async (userData) => {
         const info = await collection.find({ "mobileNumber": convertRegisterData.mobileNumber }).toArray();
 
         if (info.length >= 1) {
-            return resConst.loginDataExist;
+            return resConst.registerError;
         } else {
             const result = await collection.insertOne(convertRegisterData);
             console.log(result);

@@ -9,6 +9,12 @@ const resconst = {
         errorCode: 201,
         message: "Registration successfull"
     },
+    registerError : {
+        success: false,
+        errorCode: 409, 
+        message: "User is already registered"
+    },
+
     mobileAndPasswordError: {
         success: false,
         errorCode: 400,
