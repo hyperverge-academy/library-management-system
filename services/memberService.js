@@ -70,6 +70,24 @@ const deleteMemberFromDatabase = async (memberId) => {
     }
 };
 
-module.exports = { getServiceMember , addMemberToDatabase,loginMemberToDatabase,deleteMemberFromDatabase,};
+const editMemberDetailsInDatabase = async (memberId, updatedData) => {
+    try {
+        if (updatedData.mobileNumber && updatedData.mobileNumber.length !== 10) {
+            console.log("Mobile number should be 10 digits");
+            return response.mobileAndPasswordError;
+        }
+        if (updatedData.password && updatedData.password.length !== 8) {
+            console.log("Password length should be 8 digits");
+            return response.passwordError;
+        }
+        const result = await memberModel.editMemberDetails(memberId, updatedData);
+        return result;
+    } catch (error) {
+        console.error('Error editing member details in the database:', error);
+        return response.internalServerError;
+    }
+};
+module.exports = { getServiceMember , addMemberToDatabase,loginMemberToDatabase,deleteMemberFromDatabase,editMemberDetailsInDatabase};
+
 
 

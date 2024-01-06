@@ -29,4 +29,10 @@ const deleteMember = async (req, res) => {
     res.send(result);
 };
 
-module.exports = { getAllMembers,addRegisterMember,loginMember,deleteMember};
+const editMemberDetails = async (req, res) => {
+    const memberId = req.params.id;
+    const updatedData = req.body;
+    const result = await memberService.editMemberDetailsInDatabase(memberId, updatedData);
+    res.send(result);
+};
+module.exports = { getAllMembers,addRegisterMember,loginMember,deleteMember,editMemberDetails};

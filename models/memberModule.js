@@ -89,4 +89,24 @@ const deleteMember = async (memberId) => {
     }
 };
 
-module.exports = { getAllMembers , saveMemberToDatabase, loginToDatabase, deleteMember};
+const editMemberDetails = async (memberId, updatedData) => {
+    try {
+        if (!ObjectId.isValid(memberId)) {
+            return resConst.invalidObjectId;
+        }
+        const filter = { _id: new ObjectId(memberId) };
+        const updateDoc = { $set: updatedData };
+        const result = await collection.updateOne(filter, updateDoc);
+        if (result.matchedCount === 0) {
+            return resConst.memberNotFound;
+        } else if (result.modifiedCount === 1) {
+            return resConst.successfulUpdate;
+        } else {
+            return resConst.internalServerError;
+        }
+    } catch (error) {
+        console.error("Error updating member details:", error);
+        return resConst.internalServerError;
+    }
+};
+module.exports = { getAllMembers , saveMemberToDatabase, loginToDatabase, deleteMember,editMemberDetails};

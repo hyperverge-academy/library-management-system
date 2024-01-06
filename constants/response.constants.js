@@ -69,5 +69,10 @@ const resconst = {
         message: "Member not found"
     },
 
+    successfulUpdate:{
+        success: true,
+        errorCode: 200,
+        message: "Member details successfully updated"
+    }
 };
 module.exports = resconst;
