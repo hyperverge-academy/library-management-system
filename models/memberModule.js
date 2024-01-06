@@ -10,7 +10,6 @@ client.connect().then(() => {
     collection = db.collection(dbConst.memberCollection);
 }).catch(err => console.log(err));
 
-
 const getAllMembers = async () => {
     const client = new MongoClient(dbConst.uri);
 
@@ -23,7 +22,6 @@ const getAllMembers = async () => {
         for await (const doc of allMembers) {
             membersArray.push(doc);
         }
-
         return membersArray;
     } catch (error) {
         console.error('Error retrieving members:', error);

@@ -5,5 +5,9 @@ const getAllBooks = async (req, res) => {
     const books = await bookService.getAllServiceBooks(bookId);
     res.send(books);
 }
-
-module.exports = {getAllBooks};
+const addBooks = async(req, res) => {
+    const bookData = req.body;
+    const result = await bookService.addBookToDatabase(bookData);
+    res.send(result);
+}
+module.exports = {getAllBooks,addBooks};

@@ -23,4 +23,28 @@ const getAllBooks = async () => {
     }
 };
 
-module.exports = { getAllBooks };
+const addNewBookToDatabase = async (bookData) => {
+    try {
+        if (!collection) {
+            await connectToDatabase();
+        }
+        const existingBook = await collection.findOne({ title: bookData.title });
+
+        if (existingBook) {
+            return { success: false, errorCode: 409, message: "Book already exists" };
+        }
+
+        const result = await collection.insertOne(bookData);
+
+        if (result.insertedCount === 1) {
+            return { success: true, errorCode: 201, message: "Book added successfully" };
+        } else {
+            return { success: false, errorCode: 500, message: "Internal server error" };
+        }
+    } catch (error) {
+        console.error("Error adding a new book:", error);
+        return { success: false, errorCode: 500, message: "Internal server error" };
+    }
+};
+
+module.exports = { getAllBooks, addNewBookToDatabase};

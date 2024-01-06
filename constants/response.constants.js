@@ -79,6 +79,30 @@ const resconst = {
         success: true,
         errorCode: 200,
         message: "Member details successfully updated"
+    },
+
+    bookNotFound: {
+        success: false,
+        errorCode: 404,
+        message: "Book not found"
+    },
+    
+    successfulBookListing: {
+        success: true,
+        errorCode: 200,
+        message: "Books listed successfully"
+    },
+
+    bookExistsError: {
+        success: false,
+        errorCode: 409,
+        message: "Book already exists"
+    },
+    bookAddedSuccess: {
+        success: true,
+        errorCode: 201,
+        message: "Book added successfully"
     }
 };
+
 module.exports = resconst;
