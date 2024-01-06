@@ -1,21 +1,7 @@
 const memberModel = require('../models/memberModule');
 const resconst = require('../constants/db.constants');
-const response = require('../constants/response.constants');
+const response = require('../constants/response.co
 
-const getServiceMember = async (memberId) => {
-    const registered = await getAllMembers(memberId);
-    return registered;
-};
-
-const getAllMembers = async () => {
-    try {
-        const allMembers = await collection.find().toArray();
-        return allMembers;
-    } catch (error) {
-        console.error('Error retrieving members:', error);
-        return [];
-    }
-};
 
 const addMemberToDatabase = async (registerMember) => {
     try {
