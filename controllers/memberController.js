@@ -6,4 +6,13 @@ const getAllMembers = async (req, res) => {
     res.send(members);
 };
 
-module.exports = { getAllMembers};
+const addMember = async  (req, res) => {
+    const userData = req.body;
+    console.log(userData);
+    const output = await memberService.addMemberToDatabase(userData);
+
+    res.send(output);
+
+    console.log('Received userData:', userData);
+};
+module.exports = { getAllMembers,addMember};

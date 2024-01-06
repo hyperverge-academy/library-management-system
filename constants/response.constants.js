@@ -50,6 +50,11 @@ const resconst = {
         success: false,
         errorCode: 204,
         message: "No bookings found for the specified user"
+    },
+    passwordError:{
+        success: false,
+        errorCode: 400,
+        message: "password len should be 8 digit"
     }
 }
 module.exports = resconst;

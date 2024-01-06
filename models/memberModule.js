@@ -1,5 +1,6 @@
 const { MongoClient } = require("mongodb");
 const dbConst = require("../constants/db.constants");
+const resConst = require("../constants/response.constants")
 
 let collection;
 const client = new MongoClient(dbConst.uri);
@@ -7,8 +8,8 @@ client.connect().then(() => {
     console.log("Connected successfully to database");
     const db = client.db(dbConst.dbName);
     collection = db.collection(dbConst.memberCollection);
-})
-.catch(err => console.log(err));
+}).catch(err => console.log(err));
+
 
 const getAllMembers = async () => {
     const client = new MongoClient(dbConst.uri);
@@ -32,4 +33,27 @@ const getAllMembers = async () => {
     }
 };
 
-module.exports = { getAllMembers };
+const saveMemberToDatabase = async (userData) => {
+    try {
+        const convertRegisterData = {
+            fullName: userData.fullName,
+            mobileNumber: parseInt(userData.mobileNumber),
+            password: userData.password
+        };
+
+        const info = await collection.find({ "mobileNumber": convertRegisterData.mobileNumber }).toArray();
+
+        if (info.length >= 1) {
+            return resConst.loginDataExist;
+        } else {
+            const result = await collection.insertOne(convertRegisterData);
+            console.log(result);
+            return resConst.registerMessage;
+        }
+    } catch (error) {
+        console.error("Error inserting document:", error);
+        return resConst.internalServerError;
+    }
+};
+
+module.exports = { getAllMembers , saveMemberToDatabase };
