@@ -7,7 +7,6 @@ const app = express();
 const port = 8000;
 
 app.use(bodyParser.json());
-// app.use(express.json()); // You can choose one, either bodyParser or express.json()
 app.use(routes);
 app.use(memberRoutes);
 

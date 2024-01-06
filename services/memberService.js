@@ -1,7 +1,11 @@
 const memberModel = require('../models/memberModule');
 const resconst = require('../constants/db.constants');
-const response = require('../constants/response.co
+const response = require('../constants/response.constants');
 
+const getServiceMember = async (memberId) => {
+    const registered = await memberModel.getAllMembers(memberId);
+    return registered;
+};
 
 const addMemberToDatabase = async (registerMember) => {
     try {
@@ -30,4 +34,31 @@ const addMemberToDatabase = async (registerMember) => {
         return response.internalServerError;
     }
 };
-module.exports = { getServiceMember , addMemberToDatabase};
+
+const loginMemberToDatabase = async (loginMember) => {
+    try {
+        if (!loginMember.mobileNumber || !loginMember.password) {
+            console.log("Field missing");
+            return response.fieldMissingError;
+        }
+
+        if (loginMember.mobileNumber.length !== 10) {
+            console.log("Mobile and password error");
+            return response.mobileAndPasswordError;            
+        }
+        if (loginMember.password.length !== 8){
+            console.log("password len should be 8 digit");
+            return response.passwordError;
+        }
+        console.log("Before saving to database");
+
+        return await memberModel.loginToDatabase(loginMember);
+
+    } catch (error) {
+        console.error('Error adding member to the database:', error);
+        return response.internalServerError;
+    }
+};
+module.exports = { getServiceMember , addMemberToDatabase,loginMemberToDatabase};
+
+

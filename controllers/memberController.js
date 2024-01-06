@@ -6,7 +6,7 @@ const getAllMembers = async (req, res) => {
     res.send(members);
 };
 
-const addMember = async  (req, res) => {
+const addRegisterMember = async  (req, res) => {
     const userData = req.body;
     console.log(userData);
     const output = await memberService.addMemberToDatabase(userData);
@@ -15,4 +15,12 @@ const addMember = async  (req, res) => {
 
     console.log('Received userData:', userData);
 };
-module.exports = { getAllMembers,addMember};
+
+const loginMember = async  (req, res) => {
+    const userData = req.body;
+    console.log(userData);
+
+    res.send(await memberService.loginMemberToDatabase(userData));
+};
+
+module.exports = { getAllMembers,addRegisterMember,loginMember};

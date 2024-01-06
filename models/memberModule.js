@@ -56,4 +56,26 @@ const saveMemberToDatabase = async (userData) => {
     }
 };
 
-module.exports = { getAllMembers , saveMemberToDatabase };
+const  loginToDatabase = async (loginData) => {
+    try {
+        const {mobileNumber, password} = loginData;
+        const info =  await collection.findOne({"mobileNumber" : parseInt(mobileNumber)});
+      if (!info){
+        return resConst.loginUserNotfound;
+      }
+      if(info.password === password) {
+        return resConst.loginMessage
+      }
+      else {
+        return resConst.loginError
+      }
+    } catch (error) {
+      console.error(" login Error ", error);
+      return resConst.internalServerError
+    }
+  }
+
+module.exports = { getAllMembers , saveMemberToDatabase, loginToDatabase};
+
+
+      
