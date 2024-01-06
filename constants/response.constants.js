@@ -55,6 +55,19 @@ const resconst = {
         success: false,
         errorCode: 400,
         message: "password len should be 8 digit"
-    }
-}
+    },
+
+    successfulDeletion : {
+        success: true,
+        errorCode: 200,
+        message: "Member successfully deleted"
+    },
+    
+    memberNotFound :{
+        success: false,
+        errorCode: 404,
+        message: "Member not found"
+    },
+
+};
 module.exports = resconst;

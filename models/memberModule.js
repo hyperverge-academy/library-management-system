@@ -1,4 +1,4 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const dbConst = require("../constants/db.constants");
 const resConst = require("../constants/response.constants")
 
@@ -56,7 +56,7 @@ const saveMemberToDatabase = async (userData) => {
     }
 };
 
-const  loginToDatabase = async (loginData) => {
+const loginToDatabase = async (loginData) => {
     try {
         const {mobileNumber, password} = loginData;
         const info =  await collection.findOne({"mobileNumber" : parseInt(mobileNumber)});
@@ -75,7 +75,18 @@ const  loginToDatabase = async (loginData) => {
     }
   }
 
-module.exports = { getAllMembers , saveMemberToDatabase, loginToDatabase};
+const deleteMember = async (memberId) => {
+    try {
+        const result = await collection.deleteOne({ _id: new ObjectId(memberId)});
+        if (result.deletedCount === 1) {
+            return resConst.successfulDeletion;
+        } else {
+            return resConst.memberNotFound;
+        }
+    } catch (error) {
+        console.error("Error deleting document:", error);
+        return resConst.internalServerError;
+    }
+};
 
-
-      
+module.exports = { getAllMembers , saveMemberToDatabase, loginToDatabase, deleteMember};

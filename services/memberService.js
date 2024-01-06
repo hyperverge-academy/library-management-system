@@ -59,6 +59,17 @@ const loginMemberToDatabase = async (loginMember) => {
         return response.internalServerError;
     }
 };
-module.exports = { getServiceMember , addMemberToDatabase,loginMemberToDatabase};
+
+const deleteMemberFromDatabase = async (memberId) => {
+    try {
+        const result = await memberModel.deleteMember(memberId);
+        return result;
+    } catch (error) {
+        console.error('Error deleting member from the database:', error);
+        return response.internalServerError;
+    }
+};
+
+module.exports = { getServiceMember , addMemberToDatabase,loginMemberToDatabase,deleteMemberFromDatabase,};
 
 

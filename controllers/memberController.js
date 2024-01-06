@@ -23,4 +23,10 @@ const loginMember = async  (req, res) => {
     res.send(await memberService.loginMemberToDatabase(userData));
 };
 
-module.exports = { getAllMembers,addRegisterMember,loginMember};
+const deleteMember = async (req, res) => {
+    const memberId = req.params.id;
+    const result = await memberService.deleteMemberFromDatabase(memberId);
+    res.send(result);
+};
+
+module.exports = { getAllMembers,addRegisterMember,loginMember,deleteMember};
