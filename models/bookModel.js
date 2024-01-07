@@ -1,5 +1,6 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient , ObjectId } = require("mongodb");
 const dbConst = require("../constants/db.constants");
+const resConst = require("../constants/response.constants")
 
 let collection;
 const client = new MongoClient(dbConst.uri);
@@ -28,7 +29,7 @@ const addNewBookToDatabase = async (bookData) => {
         if (!collection) {
             await connectToDatabase();
         }
-        const existingBook = await collection.findOne({ title: bookData.title });
+        const existingBook = await collection.findOne({ title: bookData.bookId });
 
         if (existingBook) {
             return { success: false, errorCode: 409, message: "Book already exists" };
@@ -47,4 +48,38 @@ const addNewBookToDatabase = async (bookData) => {
     }
 };
 
-module.exports = { getAllBooks, addNewBookToDatabase};
+// const deleteBook = async (bookId) => {
+//     try {
+//         if (!ObjectId.isValid(bookId)) {
+//             return resConst.invalidObjectId;
+//         }
+
+//         await connectToDatabase();
+
+//         const filter = { _id: new ObjectId(bookId) };
+//         const result = await collection.deleteOne(filter);
+
+//         if (result.deletedCount === 0) {
+//             return resConst.bookNotFound;
+//         }
+
+//         console.log('Book deleted successfully');
+//         return resConst.successfullyDeletedBook;
+//     } catch (error) {
+//         console.error('Error deleting book:', error);
+//         return resConst.internalServerError;
+//     } finally {
+//         await client.close();
+//     }
+// };
+const deleteBook = async (bookId) => {
+
+    const result = await collection.deleteOne({ _id: new ObjectId(bookId) });
+
+    if (result.deletedCount === 1) {
+        return resConst.successfullyDeletedBook;
+    } else {
+        return resConst.bookNotFound;
+    }
+};
+module.exports = { getAllBooks, addNewBookToDatabase, deleteBook};

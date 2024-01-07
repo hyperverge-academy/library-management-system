@@ -102,6 +102,12 @@ const resconst = {
         success: true,
         errorCode: 201,
         message: "Book added successfully"
+    },
+
+    successfullyDeletedBook:{
+        success: true,
+        errorCode: 200,
+        message: "Book successfully deleted"
     }
 };
 

@@ -1,5 +1,6 @@
 const bookModel = require('../models/bookModel');
-const resconst = require('../constants/db.constants');
+const dbConst = require("../constants/db.constants");
+const resConst = require("../constants/response.constants")
 const response = require('../constants/response.constants');
 
 const getAllServiceBooks = async (bookId) => {
@@ -17,4 +18,19 @@ const addBookToDatabase  = async (bookData) => {
     }
 };
 
-module.exports = { getAllServiceBooks , addBookToDatabase};
+const removeBookFromDatabase = async (bookId) =>{
+    try{
+        const result = await bookModel.deleteBook(bookId);
+
+        if (result === response.bookNotFound) {
+            return result;
+        }
+        return response.successfullyDeletedBook;
+    }catch (error) {
+        console.error('Error deleting book:', error);
+        return response.internalServerError;
+    }
+
+};
+
+module.exports = { getAllServiceBooks , addBookToDatabase,removeBookFromDatabase};
