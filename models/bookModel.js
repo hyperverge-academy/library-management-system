@@ -37,9 +37,9 @@ const addNewBookToDatabase = async (bookData) => {
         const result = await collection.insertOne(bookData);
 
         if (result.insertedCount === 1) {
-            return { success: true, errorCode: 201, message: "Book added successfully" };
-        } else {
             return { success: false, errorCode: 500, message: "Internal server error" };
+        } else {
+            return { success: true, errorCode: 201, message: "Book added successfully" };
         }
     } catch (error) {
         console.error("Error adding a new book:", error);
