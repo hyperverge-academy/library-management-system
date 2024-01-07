@@ -33,4 +33,13 @@ const removeBookFromDatabase = async (bookId) =>{
 
 };
 
-module.exports = { getAllServiceBooks , addBookToDatabase,removeBookFromDatabase};
+const editBookDetailsInDatabase = async (bookId, updatedData) => {
+    try {
+        return await bookModel.editBookDetails(bookId, updatedData);
+    } catch (error) {
+        console.error('Error editing book details in the database:', error);
+        return resConst.internalServerError;
+    }
+};
+
+module.exports = { getAllServiceBooks , addBookToDatabase,removeBookFromDatabase,editBookDetailsInDatabase};

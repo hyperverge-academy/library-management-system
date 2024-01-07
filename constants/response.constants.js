@@ -108,7 +108,19 @@ const resconst = {
         success: true,
         errorCode: 200,
         message: "Book successfully deleted"
-    }
+    },
+
+    invalidObjectId: {
+        success: false,
+        errorCode: 400,
+        message: 'Invalid Object ID'
+    },
+
+    successfulUpdate: {
+        success: true,
+        errorCode: 200,
+        message: 'Book details successfully updated'
+    },
 };
 
 module.exports = resconst;

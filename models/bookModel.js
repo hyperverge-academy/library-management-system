@@ -82,4 +82,27 @@ const deleteBook = async (bookId) => {
         return resConst.bookNotFound;
     }
 };
-module.exports = { getAllBooks, addNewBookToDatabase, deleteBook};
+
+const editBookDetails = async (bookId, updatedData) => {
+    try {
+        if (!ObjectId.isValid(bookId)) {
+            return resConst.invalidObjectId;
+        }
+
+        const filter = { _id: new ObjectId(bookId) };
+        const updateDoc = { $set: updatedData };
+        const result = await collection.updateOne(filter, updateDoc);
+
+        if (result.matchedCount === 0) {
+            return resConst.bookNotFound;
+        } else if (result.modifiedCount === 1) {
+            return resConst.successfulUpdate;
+        } else {
+            return resConst.internalServerError;
+        }
+    } catch (error) {
+        console.error('Error updating book details:', error);
+        return resConst.internalServerError;
+    }
+};
+module.exports = { getAllBooks, addNewBookToDatabase, deleteBook,editBookDetails};

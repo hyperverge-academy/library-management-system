@@ -18,5 +18,13 @@ const removeBooks = async(req, res) => {
     res.send(result);
 }
 
+const editBookDetails = async (req, res) => {
+    const bookId = req.params.id;
+    const updatedData = req.body;
 
-module.exports = {getAllBooks,addBooks,removeBooks};
+    const result = await bookService.editBookDetailsInDatabase(bookId, updatedData);
+    res.send(result);
+};
+
+
+module.exports = {getAllBooks,addBooks,removeBooks,editBookDetails};
