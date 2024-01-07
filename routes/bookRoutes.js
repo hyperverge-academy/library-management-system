@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const bookController = require('../controllers/bookController');
 
-router.use('/displayAllBooks', bookController.getAllBooks);
-router.use('/addBooks', bookController.addBooks);
-router.use('/removeBooks/:bookId', bookController.removeBooks);
+router.get('/displayAllBooks', bookController.getAllBooks);
+router.post('/addBooks', bookController.addBooks);
+router.delete('/removeBooks/:bookId', bookController.removeBooks);
+router.put('/editBookDetails/:id', bookController.editBookDetails);
 
 module.exports = router;
