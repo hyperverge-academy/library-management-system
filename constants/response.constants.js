@@ -116,11 +116,43 @@ const resconst = {
         message: 'Invalid Object ID'
     },
 
-    successfulUpdate: {
+    successfullyUpdated: {
         success: true,
         errorCode: 200,
         message: 'Book details successfully updated'
     },
+
+    successfulIssue: {
+        success: true,
+        errorCode: 200,
+        message: "Book successfully issued",
+    },
+
+    bookNotAvailable: {
+        success: false,
+        errorCode: 400,
+        message: "Book is not available for issuing",
+    },
+
+    memberNotFound: {
+        success: false,
+        errorCode: 404,
+        message: "Member not found",
+    },
+
+    issueingFailed:{
+        success: false,
+        errorCode: 500,
+        message: 'Failed to issue book'
+    },
+
+    booknotavailableforissuing :{
+        success: false,
+        errorCode:400,
+        message: 'Book not available for issuing'
+    }
+
+    
 };
 
 module.exports = resconst;
