@@ -27,21 +27,17 @@ const issueBook = async (issueData, memberId, bookId) => {
         if (!book) {
             return resConst.bookNotFound;
         }
-
-        if (book.status !== 'Available') {
+        console.log(book.status)
+        if (book.status !== 'available') {
             return resConst.booknotavailableforissuing;
         }
-        book.status = 'Issued';
+        book.status = 'issued';
         const bookUpdate = {$set:{"status":book.status}}
-        const update = await BooksCollection.updateOne(bookUpdate,filteredBook);
+        const update = await BooksCollection.updateOne(filteredBook, bookUpdate);
         
         const result = await IssuedBooksCollection.insertOne(issueData);
+        return resConst.successfulIssue;
         
-        if (result.insertedCount === 1) {
-            return resConst.successfulIssue;
-        } else {
-            return resConst.issueingFailed;
-        }
     } catch (error) {
         console.error('Error issuing book:', error);
         return resConst.internalServerError;

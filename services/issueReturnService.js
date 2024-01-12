@@ -48,10 +48,10 @@ const resConst = require("../constants/response.constants");
 const issueBookToMember = async (issue, memberId, bookId) => {
     try {
 
-        if (!issue.bookId || !issue.memberId || !issue.issueDate || !issue.returnDate ||!issue.duration || !issue.issueId) {
+        if (!issue.bookId || !issue.memberId || !issue.issueId || !issue.issueDate || !issue.returnDate ||!issue.duration) {
             return resConst.fieldMissingError;
         } else {           
-            return await issueReturnModel.issueBook(memberId, bookId);
+            return await issueReturnModel.issueBook(issue,memberId, bookId);
         }
     } catch (error) {
         console.error('Error issuing book:', error);
