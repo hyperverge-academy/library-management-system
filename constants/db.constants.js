@@ -2,7 +2,7 @@ const dbConfig = {
     dbName : "libraryManagement",
     memberCollection:"members",
     bookCollection: "books",
-    issuedBooksCollection : "issuedBooks",
+    issueReturnBooksCollection : "issuedBooks",
     uri: "mongodb://localhost:27017",
 }
 module.exports = dbConfig;

@@ -7,7 +7,7 @@ const client = new MongoClient(dbConst.uri);
 client.connect().then(() => {
     console.log("Connected successfully to the database");
     const db = client.db(dbConst.dbName);
-    IssuedBooksCollection = db.collection(dbConst.issuedBooksCollection);
+    IssuedBooksCollection = db.collection(dbConst.issueReturnBooksCollection);
     MembersCollection = db.collection(dbConst.memberCollection);
     BooksCollection = db.collection(dbConst.bookCollection);
     
