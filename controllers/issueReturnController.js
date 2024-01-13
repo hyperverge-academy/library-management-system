@@ -8,4 +8,10 @@ const issueBook = async (req, res) => {
     res.send(result);
 };
 
-module.exports = { issueBook };
+const returnBook = async (req, res) => {
+    const issueId = req.params.issueId;
+    const result = await issueReturnService.returnBookToLibrary(issueId);
+    res.send(result);
+};
+
+module.exports = { issueBook , returnBook };

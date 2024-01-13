@@ -44,4 +44,51 @@ const issueBook = async (issueData, memberId, bookId) => {
     }
 };
 
-module.exports = { issueBook};
+
+const updateBookStatus = async (bookId, status) => {
+    try {
+        await BooksCollection.updateOne(
+            { bookId: bookId },
+            { $set: { status: status } }
+        );
+    } catch (error) {
+        console.error('Error updating book status:', error);
+    }
+};
+
+const returnBook = async (issueId) => {
+    try {
+        const issuedBook = await IssuedBooksCollection.findOne({ issueId : issueId });
+
+        if (!issuedBook) {
+            return resConst.bookNotIssued;
+        }
+
+        const expectedReturnDate = new Date(issuedBook.returnDate);
+        const actualReturnDate = new Date();
+        console.log("Expected Return Date:", expectedReturnDate);
+        console.log("Actual Return Date:", actualReturnDate);
+
+        if (actualReturnDate > expectedReturnDate) {
+            console.log(`The book is overdue `);
+        } else if (actualReturnDate < expectedReturnDate) {
+            console.log(`The book was returned early `);
+        } else {
+            console.log("The book was returned on time.");
+        }
+        
+        await updateBookStatus(issuedBook.bookId, 'available');
+
+        await IssuedBooksCollection.updateOne(
+            { issueId : issueId },
+            { $set: { returnDate: actualReturnDate } }
+        );
+
+        return resConst.successfulReturn;
+    } catch (error) {
+        console.error('Error returning book:', error);
+        return resConst.internalServerError;
+    }
+};
+
+module.exports = { issueBook, returnBook, updateBookStatus };

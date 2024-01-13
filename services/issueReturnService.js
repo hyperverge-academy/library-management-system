@@ -24,5 +24,14 @@ const issueBookToMember = async (issue, memberId, bookId) => {
     }
 };
 
-module.exports = { issueBookToMember, getCurrentDate};
+const returnBookToLibrary = async (issueId) => {
+    try{
+     return await issueReturnModel.returnBook(issueId);
+    }
+    catch (error) {
+        console.error('Error returning book:', error);
+        return resConst.internalServerError;
+    }
+};
 
+module.exports = {issueBookToMember,returnBookToLibrary}
