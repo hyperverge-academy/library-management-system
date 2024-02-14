@@ -7,11 +7,29 @@ const getAllServiceBooks = async (bookId) => {
     return await bookModel.getAllBooks(bookId);
 };
 
-
-const addBookToDatabase  = async (bookData) => {
+const addBookToDatabase = async (bookData) => {
     try {
+        const requiredFields = ["bookId", "status", "title", "author", "genre", "price"];
+        if (requiredFields.some(field => !bookData[field])) {
+            console.log("Field missing");
+            return response.fieldMissingError;
+        }
+
+        console.log("Before saving to database");
+
         const result = await bookModel.addNewBookToDatabase(bookData);
-        return result;
+
+        if (result === resConst.bookExistsError) {
+            console.log("Book already exists");
+            return response.bookExistsError;
+        } else if (result === resConst.internalServerError) {
+            console.error("Internal server error");
+            return response.internalServerError;
+        } else {
+            console.log("After saving to database");
+            return response.bookAddedSuccess;
+        }
+
     } catch (error) {
         console.error('Error adding a new book:', error);
         return { success: false, errorCode: 500, message: "Internal server error" };
@@ -22,11 +40,14 @@ const removeBookFromDatabase = async (bookId) =>{
     try{
         const result = await bookModel.deleteBook(bookId);
 
+        console.log(result)
+
         if (result === response.bookNotFound) {
             return result;
         }
         return response.successfullyDeletedBook;
-    }catch (error) {
+        
+    } catch (error) {
         console.error('Error deleting book:', error);
         return response.internalServerError;
     }

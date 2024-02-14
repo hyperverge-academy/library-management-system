@@ -6,19 +6,20 @@ const resconst = {
     },
     registerMessage: {
         success: true,
-        errorCode: 201,
-        message: "Registration successfull"
+        errorCode: 200,
+        message: "Member Added Successfull"
     },
+
     registerError : {
         success: false,
         errorCode: 409, 
         message: "User is already registered"
     },
 
-    mobileAndPasswordError: {
+    mobileError: {
         success: false,
         errorCode: 400,
-        message: "Mobile number shuold be 10 digit and password len should be 8 digit"
+        message: "Mobile number shuold be 10 digit"
     },
     loginMessage: {
         success: true,
@@ -81,6 +82,12 @@ const resconst = {
         message: "Member details successfully updated"
     },
 
+    viewAllMembers:{
+        success:true,
+        errorCode: 200,
+        message: "View all members"
+    },
+
     bookNotFound: {
         success: false,
         errorCode: 404,
@@ -100,7 +107,7 @@ const resconst = {
     },
     bookAddedSuccess: {
         success: true,
-        errorCode: 201,
+        errorCode: 200,
         message: "Book added successfully"
     },
 
@@ -150,6 +157,18 @@ const resconst = {
         success: false,
         errorCode:400,
         message: 'Book not available for issuing'
+    },
+
+    getAllMembers:{
+        success: true,
+        errorCode : 200,
+        message : 'Successfully get All members'
+
+    },
+    returnBook:{
+        success:false,
+        errorCode : 200,
+        mesaage:'Book Sucessfully Returned'
     }
 
     

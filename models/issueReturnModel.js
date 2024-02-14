@@ -84,7 +84,7 @@ const returnBook = async (issueId) => {
             { $set: { returnDate: actualReturnDate } }
         );
 
-        return resConst.successfulReturn;
+        return resConst.returnBook;
     } catch (error) {
         console.error('Error returning book:', error);
         return resConst.internalServerError;

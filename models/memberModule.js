@@ -21,11 +21,16 @@ const getAllMembers = async () => {
 
         for await (const doc of allMembers) {
             membersArray.push(doc);
+            
         }
-        return membersArray;
+        console.log(membersArray);
+        return resConst.viewAllMembers;
+        
+
     } catch (error) {
         console.error('Error retrieving members:', error);
         return [];
+
     } finally {
         await client.close();
     }
@@ -36,7 +41,7 @@ const saveMemberToDatabase = async (userData) => {
         const convertRegisterData = {
             fullName: userData.fullName,
             mobileNumber: parseInt(userData.mobileNumber),
-            password: userData.password
+            memberId:userData.memberId,
         };
 
         const info = await collection.find({ "mobileNumber": convertRegisterData.mobileNumber }).toArray();
@@ -54,25 +59,6 @@ const saveMemberToDatabase = async (userData) => {
     }
 };
 
-const loginToDatabase = async (loginData) => {
-    try {
-        const {mobileNumber, password} = loginData;
-        const info =  await collection.findOne({"mobileNumber" : parseInt(mobileNumber)});
-      if (!info){
-        return resConst.loginUserNotfound;
-      }
-      if(info.password === password) {
-        return resConst.loginMessage
-      }
-      else {
-        return resConst.loginError
-      }
-    } catch (error) {
-      console.error(" login Error ", error);
-      return resConst.internalServerError
-    }
-  }
-
 const deleteMember = async (memberId) => {
     try {
         const result = await collection.deleteOne({ _id: new ObjectId(memberId)});
@@ -87,11 +73,9 @@ const deleteMember = async (memberId) => {
     }
 };
 
+
 const editMemberDetails = async (memberId, updatedData) => {
     try {
-        if (!ObjectId.isValid(memberId)) {
-            return resConst.invalidObjectId;
-        }
         const filter = { _id: new ObjectId(memberId) };
         const updateDoc = { $set: updatedData };
         const result = await collection.updateOne(filter, updateDoc);
@@ -107,4 +91,5 @@ const editMemberDetails = async (memberId, updatedData) => {
         return resConst.internalServerError;
     }
 };
-module.exports = { getAllMembers , saveMemberToDatabase, loginToDatabase, deleteMember,editMemberDetails};
+
+module.exports = { getAllMembers, saveMemberToDatabase, deleteMember, editMemberDetails };

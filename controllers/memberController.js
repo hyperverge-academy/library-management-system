@@ -1,8 +1,9 @@
 const memberService = require('../services/memberService');
 
 const getAllMembers = async (req, res) => {
-    const memberId = req.params.id;
-    const members = await memberService.getServiceMember(memberId);
+    // const memberId = req.params.id;
+    const members = await memberService.getServiceMember();
+    console.log(members)
     res.send(members);
 };
 
@@ -16,17 +17,11 @@ const addRegisterMember = async  (req, res) => {
     console.log('Received userData:', userData);
 };
 
-const loginMember = async  (req, res) => {
-    const userData = req.body;
-    console.log(userData);
-
-    res.send(await memberService.loginMemberToDatabase(userData));
-};
-
 const deleteMember = async (req, res) => {
     const memberId = req.params.id;
     const result = await memberService.deleteMemberFromDatabase(memberId);
     res.send(result);
+    
 };
 
 const editMemberDetails = async (req, res) => {
@@ -35,4 +30,4 @@ const editMemberDetails = async (req, res) => {
     const result = await memberService.editMemberDetailsInDatabase(memberId, updatedData);
     res.send(result);
 };
-module.exports = { getAllMembers,addRegisterMember,loginMember,deleteMember,editMemberDetails};
+module.exports = { getAllMembers,addRegisterMember,deleteMember,editMemberDetails};

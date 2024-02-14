@@ -1,4 +1,4 @@
-const { MongoClient , ObjectId } = require("mongodb");
+const { MongoClient , ObjectId, ConnectionClosedEvent } = require("mongodb");
 const dbConst = require("../constants/db.constants");
 const resConst = require("../constants/response.constants")
 
@@ -14,7 +14,8 @@ client.connect().then(() => {
 const getAllBooks = async () => {
     try {
         const books = await collection.find().toArray();
-        return books;
+        console.log(books)
+        return resConst.successfulBookListing;
     } catch (error) {
         console.error('Error retrieving books:', error);
         return [];
@@ -26,52 +27,25 @@ const getAllBooks = async () => {
 
 const addNewBookToDatabase = async (bookData) => {
     try {
-        if (!collection) {
-            await connectToDatabase();
-        }
-        const existingBook = await collection.findOne({ title: bookData.bookId });
+        console.log("Checking for existing book with bookId:", bookData.bookId);
+        const existingBook = await collection.findOne({ bookId: bookData.bookId });
 
         if (existingBook) {
-            return { success: false, errorCode: 409, message: "Book already exists" };
+            return resConst.bookExistsError;
         }
 
         const result = await collection.insertOne(bookData);
 
         if (result.insertedCount === 1) {
-            return { success: true, errorCode: 201, message: "Book added successfully" };
-        } else {
-            return { success: false, errorCode: 500, message: "Internal server error" };
-        }
+            return resConst.bookAddedSuccess;
+        } 
+        
     } catch (error) {
         console.error("Error adding a new book:", error);
         return { success: false, errorCode: 500, message: "Internal server error" };
     }
 };
 
-// const deleteBook = async (bookId) => {
-//     try {
-//         if (!ObjectId.isValid(bookId)) {
-//             return resConst.invalidObjectId;
-//         }
-
-//         await connectToDatabase();
-
-//         const filter = { _id: new ObjectId(bookId) };
-//         const result = await collection.deleteOne(filter);
-
-//         if (result.deletedCount === 0) {
-//             return resConst.bookNotFound;
-//         }
-
-//         console.log('Book deleted successfully');
-//         return resConst.successfullyDeletedBook;
-//     } catch (error) {
-//         console.error('Error deleting book:', error);
-//         return resConst.internalServerError;
-//     } finally {
-//         await client.close();
-//     }
-// };
 const deleteBook = async (bookId) => {
 
     const result = await collection.deleteOne({ _id: new ObjectId(bookId) });
@@ -91,12 +65,12 @@ const editBookDetails = async (bookId, updatedData) => {
 
         const filter = { _id: new ObjectId(bookId) };
         const updateDoc = { $set: updatedData };
-        const result = await collection.updateOne(filter, updateDoc);
+        const result = await collection.updateMany(filter, updateDoc);
 
         if (result.matchedCount === 0) {
             return resConst.bookNotFound;
         } else if (result.modifiedCount === 1) {
-            return resConst.successfulUpdate;
+            return resConst. successfullyUpdated;
         } else {
             return resConst.internalServerError;
         }
